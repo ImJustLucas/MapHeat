@@ -1,3 +1,30 @@
+$color-p: #ffffff;
+$color-s: #29304A;
+
+@for $i from 1 through 10{
+    .wrap-#{$i*10}{
+        width: $i * 10%;
+        margin: 0 auto;
+    } 
+}
+
+.background-body{
+    background-image: url("./../assets/image/background.png");
+    background-position: bottom center;
+    background-size: cover;
+    background-repeat: no-repeat no-repeat;
+    height: 100vh;
+}
+
 body{
-    background-color: #ffee11;
+    background-color: $color-s;
+}
+
+.Home-Content1{
+    .line1{
+        background-color: #E2E8F0;
+        height: 1.6px;
+        width: 80px;
+        margin: 0 10px 0 0;
+    }
 }
