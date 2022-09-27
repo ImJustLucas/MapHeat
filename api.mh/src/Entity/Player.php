@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlayerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
@@ -24,6 +26,14 @@ class Player
 
     #[ORM\Column]
     private ?float $summonerLV = null;
+
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: MatchResume::class, orphanRemoval: true)]
+    private Collection $Player;
+
+    public function __construct()
+    {
+        $this->Player = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +84,36 @@ class Player
     public function setSummonerLV(float $summonerLV): self
     {
         $this->summonerLV = $summonerLV;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MatchResume>
+     */
+    public function getPlayer(): Collection
+    {
+        return $this->Player;
+    }
+
+    public function addPlayer(MatchResume $player): self
+    {
+        if (!$this->Player->contains($player)) {
+            $this->Player->add($player);
+            $player->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(MatchResume $player): self
+    {
+        if ($this->Player->removeElement($player)) {
+            // set the owning side to null (unless already changed)
+            if ($player->getPlayer() === $this) {
+                $player->setPlayer(null);
+            }
+        }
 
         return $this;
     }
