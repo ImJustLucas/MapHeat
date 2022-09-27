@@ -44,7 +44,7 @@ class GamesResumeController extends AbstractController
 			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/' . $jsonAPI['puuid'] . '/ids?start=0&count=20&api_key=' . $this->getParameter('app.riot_api_key'));
 			$matchsID = json_decode($raw->getContent(), true);
 
-			$jsonAPI['macthsID'] = $matchsID;
+			$jsonAPI['matchsID'] = $matchsID;
 			$PlayerRepository->addPlayer($jsonAPI);
 
 			$result = $jsonAPI;

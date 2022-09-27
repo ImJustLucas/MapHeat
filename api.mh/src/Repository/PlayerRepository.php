@@ -46,7 +46,7 @@ class PlayerRepository extends ServiceEntityRepository
         $newPlayer->setPUUID($data['puuid']);
         $newPlayer->setProfilIconId($data['profileIconId']);
         $newPlayer->setSummonerLV($data['summonerLevel']);
-        $newPlayer->setMatchsID($data['macthsID']);
+        $newPlayer->setMatchsID($data['matchsID']);
 
         $this->save($newPlayer, true);
     }
