@@ -41,22 +41,21 @@ class GamesResumeController extends AbstractController
 			$raw = $httpClient->request('GET', 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' . $username . '?api_key=' . $this->getParameter('app.riot_api_key'));
 			$jsonAPI = json_decode($raw->getContent(), true);
 
-			$newPlayer = new Player();
-			$newPlayer->setName($jsonAPI['name']);
-			$newPlayer->setPUUID($jsonAPI['puuid']);
-			$newPlayer->setProfilIconId($jsonAPI['profileIconId']);
-			$newPlayer->setSummonerLV($jsonAPI['summonerLevel']);
+			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/' . $jsonAPI['puuid'] . '/ids?start=0&count=20&api_key=' . $this->getParameter('app.riot_api_key'));
+			$matchsID = json_decode($raw->getContent(), true);
+
+			$jsonAPI['macthsID'] = $matchsID;
+			$PlayerRepository->addPlayer($jsonAPI);
+
 			$result = $jsonAPI;
 			$result['where'] = "Riot API";
-
-			$entityManager->persist($newPlayer);
-			$entityManager->flush();
 		} else {
 			$result = [
 				"username" => $gamer->getName(),
 				"PUUID" => $gamer->getPUUID(),
 				"icon" => $gamer->getProfilIconId(),
 				"summonersLvl" => $gamer->getSummonerLV(),
+				"matchID" => $gamer->getMatchsID(),
 				"where" => "database"
 			];
 		}

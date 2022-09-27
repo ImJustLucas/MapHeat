@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlayerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
@@ -29,6 +30,9 @@ class Player
 
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: MatchResume::class, orphanRemoval: true)]
     private Collection $Player;
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $MatchsID = [];
 
     public function __construct()
     {
@@ -114,6 +118,18 @@ class Player
                 $player->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMatchsID(): array
+    {
+        return $this->MatchsID;
+    }
+
+    public function setMatchsID(array $MatchsID): self
+    {
+        $this->MatchsID = $MatchsID;
 
         return $this;
     }
