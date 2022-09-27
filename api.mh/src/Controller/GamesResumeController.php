@@ -12,16 +12,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
+
 class GamesResumeController extends AbstractController
 {
     #[Route('/games/{username}', name: 'app_games_resume', methods: ['GET'])]
-    public function index(PlayerRepository $PlayerRepository,string $username): JsonResponse
+    public function index( EntityManagerInterface $entityManager, PlayerRepository $PlayerRepository, string $username): JsonResponse
     {
         
         $player = $PlayerRepository->findOneBy(array('name' => $username));
 
         if(empty($player) || is_null($player)) {
-            $result = "User not found";
+            // $result = "User not found";
+            $newPlayer = new Player();
+            $newPlayer->setName("Lucas");
+            $newPlayer->setPUUID("8Kw3JaqzFcIWqEqDr9Wjbni-CzzHKx_koUlRJOuxKdo-TbDLSXMskRMqTo6sx8_H2LGmEad_KOT7DQ");
+            $newPlayer->setProfilIconId(3456);
+            $newPlayer->setSummonerLV(388);
+
+            $entityManager->persist($newPlayer);
+            $entityManager->flush();
+
+            $result = $newPlayer;
         } else {
             // $result = [
             //     "username" => $player->getName(),
@@ -30,7 +43,7 @@ class GamesResumeController extends AbstractController
             //     "summonersLvl" => $player->getSummonerLV(),
             // ];
             $result = [
-                "username" => "Lucαš",
+                "username" => "Lucas",
                 "PUUID" => "8Kw3JaqzFcIWqEqDr9Wjbni-CzzHKx_koUlRJOuxKdo-TbDLSXMskRMqTo6sx8_H2LGmEad_KOT7DQ",
                 "icon" => "3456",
                 "summonersLvl" => "388",
