@@ -38,7 +38,25 @@ class MatchResumeRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
+    
+    public function addMatchResume($data):void {
+        $newMatchs = new MatchResume();
+        $newMatchs->setGameMode($data['gameMode']);
+        $newMatchs->setGameEndTimestamp($data['gameEndTimestamp']);
+        $newMatchs->setGameLength($data['gameLength']);
+        $newMatchs->setKda($data['kda']);
+        $newMatchs->setChampLevel($data['champLevel']);
+        $newMatchs->setChampionId($data['championId']);
+        $newMatchs->setDeaths($data['deaths']);
+        $newMatchs->setKills($data['kills']);
+        $newMatchs->setAssists($data['assists']);
+        $newMatchs->setChampionName($data['assists']);
+        // $newMatchs->setItem($data['championName']);
+        $newMatchs->setLane($data['lane']);
+        $newMatchs->setWardsPlaced($data['wardsPlaced']);
+        $newMatchs->setWin($data['win']);
+        $newMatchs->setPuuid($data['puuid']);
+    }
 //    /**
 //     * @return MatchResume[] Returns an array of MatchResume objects
 //     */

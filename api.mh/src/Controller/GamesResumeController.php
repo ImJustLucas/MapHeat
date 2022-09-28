@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\PlayerRepository;
+use App\Repository\MatchResumeRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,11 +51,48 @@ class GamesResumeController extends AbstractController
 			];
 		}
 
-
-
 		return $this->json([
 			'message' => 'Get the resume of the last X games',
 			'username' => $username,
+			'result' => $result
+		]);
+	}
+
+	#[Route('/gameResumes/{username}', name: 'games_resume', methods: ['GET'])]
+	public function gameResume(MatchResumeRepository $matchResumeRepository, PlayerRepository $PlayerRepository, string $username): JsonResponse
+	{
+		$username = str_replace(" ", "", strtolower($username));
+		$players = $PlayerRepository->findAll();
+		$gamer = null;
+		foreach ($players as $player) {
+			$playersName = $player->getName();
+			$playersName = str_replace(" ", "", strtolower($playersName));
+			if ($username === $playersName) {
+				$gamer = $player;
+			}
+		}
+
+		$httpClient = HttpClient::create();
+		foreach ($gamer->getMatchsID() as $matchid) {
+			$httpClient = HttpClient::create();
+			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/' . $matchid . '?api_key=' . $this->getParameter('app.riot_api_key'));
+			$MatchResumeAPI = json_decode($raw->getContent(), true);
+		}
+
+		$MatchPlayerpuuid = $MatchResumeAPI['result']['matchID']['info']['participants']['puuid'];
+		foreach ($MatchPlayerpuuid as $matchResumepuuid) {
+			if ($gamer->getPUUID() === $matchResumepuuid) {
+				// $matchResumeRepository->addMatchResume($MatchResumeAPI);
+				$result = [
+					"matchID" => $matchResumepuuid,
+					// "where" => "database"
+				];
+			}
+		}
+
+		return $this->json([
+			// 'message' => 'Get the resume of the last X games',
+			// 'username' => $username,
 			'result' => $result
 		]);
 	}
