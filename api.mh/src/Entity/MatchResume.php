@@ -66,6 +66,9 @@ class MatchResume
     #[ORM\Column(length: 255)]
     private ?string $puuid = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Matchid = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -276,6 +279,18 @@ class MatchResume
     public function setPuuid(string $puuid): self
     {
         $this->puuid = $puuid;
+
+        return $this;
+    }
+
+    public function getMatchid(): ?string
+    {
+        return $this->Matchid;
+    }
+
+    public function setMatchid(string $Matchid): self
+    {
+        $this->Matchid = $Matchid;
 
         return $this;
     }

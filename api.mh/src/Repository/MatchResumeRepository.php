@@ -41,6 +41,7 @@ class MatchResumeRepository extends ServiceEntityRepository
 
     public function addMatchResume($data): void
     {
+        // dd($data);
         $newMatchs = new MatchResume();
         $newMatchs->setGameMode($data['gameMode']);
         $newMatchs->setGameEndTimestamp($data['gameEndTimestamp']);
@@ -52,11 +53,12 @@ class MatchResumeRepository extends ServiceEntityRepository
         $newMatchs->setKills($data['kills']);
         $newMatchs->setAssists($data['assists']);
         $newMatchs->setChampionName($data['championName']);
-        $newMatchs->setItem($data['championName']);
+        $newMatchs->setItem($data['items']);
         $newMatchs->setLane($data['lane']);
         $newMatchs->setWardsPlaced($data['wardsPlaced']);
         $newMatchs->setWin($data['win']);
         $newMatchs->setPuuid($data['puuid']);
+        $newMatchs->setMatchid($data['matchId']);
 
         $this->save($newMatchs, true);
     }

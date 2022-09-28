@@ -53,48 +53,50 @@ class GamesResumeController extends AbstractController
 
 		//Find match
 		$matchs = [];
-		foreach ($user['matchID'] as $matchID) {
+		$matchperso = [];
+		foreach ($gamer->getMatchsID() as $matchID) {
+
+			$httpClient = HttpClient::create();
 			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/' . $matchID . '?api_key=' . $this->getParameter('app.riot_api_key'));
 			$match = json_decode($raw->getContent(), true);
-			array_push($matchs, $match);
-			$MatchResumeRepository->addMatchResume($match);
+			$player_in_match = [];
+			foreach ($match['info']['participants'] as $participant) {
+				if ($participant['puuid'] === $user['PUUID']) {
+					$player_in_match = $participant;
+				}
+			}
+			$items = array();
+			for ($i = 0; $i < 7; $i++) {
+				array_push($items, $player_in_match['item' . $i]);
+			}
+			$matchperso = array(
+				"gameMode" => $match['info']['gameMode'],
+				"gameEndTimestamp" => $match['info']['gameEndTimestamp'],
+				"gameLength" => $player_in_match['challenges']['gameLength'],
+				"kda" => $player_in_match['challenges']['kda'],
+				"champLevel" => $player_in_match['champLevel'],
+				"championId" => $player_in_match['championId'],
+				"deaths" => $player_in_match['deaths'],
+				"kills" => $player_in_match['kills'],
+				"assists" => $player_in_match['assists'],
+				"championName" => $player_in_match['championName'],
+				"items" => $items,
+				"lane" => $player_in_match['lane'],
+				"wardsPlaced" => $player_in_match['wardsPlaced'],
+				"win" => $player_in_match['win'],
+				"puuid" => $player_in_match['puuid'],
+				"matchId" => $match['metadata']['matchId'],
+				"player_id" => $user['PUUID'],
+			);
+			array_push($matchs, $matchperso);
+			$MatchResumeRepository->addMatchResume($matchperso);
 		}
 
 		return $this->json([
-			'message' => 'Get the resume of the last 20 games',
-			'username' => $username,
-			'user' => $user,
-			'MatchResume' => $matchs
+			// 'message' => 'Get the resume of the last 20 games',
+			// 'username' => $username,
+			// 'user' => $user['PUUID'],
+			// $matchperso
 		]);
 	}
-
-
-	// 	#[Route('/gameResumes/{username}', name: 'games_resume', methods: ['GET'])]
-	// 	public function gameResume(PlayerRepository $PlayerRepository, string $username): JsonResponse
-	// 	{
-
-	// 		$httpClient = HttpClient::create();
-	// 		foreach ($gamer->getMatchsID() as $matchid) {
-	// 			$httpClient = HttpClient::create();
-	// 			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/' . $matchid . '?api_key=' . $this->getParameter('app.riot_api_key'));
-	// 			$MatchResumeAPI = json_decode($raw->getContent(), true);
-	// 		}
-
-	// 		$MatchPlayerpuuid = $MatchResumeAPI['result']['matchID']['info']['participants']['puuid'];
-	// 		foreach ($MatchPlayerpuuid as $matchResumepuuid) {
-	// 			if ($gamer->getPUUID() === $matchResumepuuid) {
-	// 				 $matchResumeRepository->addMatchResume($MatchResumeAPI);
-	// 				$result = [
-	// 					"matchID" => $matchResumepuuid,
-	// 					 "where" => "database"
-	// 				];
-	// 			}
-	// 		}
-
-	// 		return $this->json([
-	// 			 'message' => 'Get the resume of the last X games',
-	// 			 'username' => $username,
-	// 			'result' => $result
-	// 		]);
-	// 	}
 }
