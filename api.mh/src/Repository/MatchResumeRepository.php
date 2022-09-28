@@ -38,8 +38,9 @@ class MatchResumeRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
-    public function addMatchResume($data):void {
+
+    public function addMatchResume($data): void
+    {
         $newMatchs = new MatchResume();
         $newMatchs->setGameMode($data['gameMode']);
         $newMatchs->setGameEndTimestamp($data['gameEndTimestamp']);
@@ -50,35 +51,37 @@ class MatchResumeRepository extends ServiceEntityRepository
         $newMatchs->setDeaths($data['deaths']);
         $newMatchs->setKills($data['kills']);
         $newMatchs->setAssists($data['assists']);
-        $newMatchs->setChampionName($data['assists']);
-        // $newMatchs->setItem($data['championName']);
+        $newMatchs->setChampionName($data['championName']);
+        $newMatchs->setItem($data['championName']);
         $newMatchs->setLane($data['lane']);
         $newMatchs->setWardsPlaced($data['wardsPlaced']);
         $newMatchs->setWin($data['win']);
         $newMatchs->setPuuid($data['puuid']);
-    }
-//    /**
-//     * @return MatchResume[] Returns an array of MatchResume objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?MatchResume
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $this->save($newMatchs, true);
+    }
+    //    /**
+    //     * @return MatchResume[] Returns an array of MatchResume objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('m.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?MatchResume
+    //    {
+    //        return $this->createQueryBuilder('m')
+    //            ->andWhere('m.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
