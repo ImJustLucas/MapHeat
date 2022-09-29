@@ -39,26 +39,25 @@ class MatchResumeRepository extends ServiceEntityRepository
         }
     }
 
-    public function addMatchResume($data): void
+    public function addMatchResume($data, $items, $puuid): void
     {
-        // dd($data);
         $newMatchs = new MatchResume();
-        $newMatchs->setGameMode($data['gameMode']);
-        $newMatchs->setGameEndTimestamp($data['gameEndTimestamp']);
-        $newMatchs->setGameLength($data['gameLength']);
-        $newMatchs->setKda($data['kda']);
-        $newMatchs->setChampLevel($data['champLevel']);
-        $newMatchs->setChampionId($data['championId']);
-        $newMatchs->setDeaths($data['deaths']);
-        $newMatchs->setKills($data['kills']);
-        $newMatchs->setAssists($data['assists']);
-        $newMatchs->setChampionName($data['championName']);
-        $newMatchs->setItem($data['items']);
-        $newMatchs->setLane($data['lane']);
-        $newMatchs->setWardsPlaced($data['wardsPlaced']);
-        $newMatchs->setWin($data['win']);
-        $newMatchs->setPuuid($data['puuid']);
-        $newMatchs->setMatchid($data['matchId']);
+        $newMatchs->setGameMode($data['info']['gameMode']);
+        $newMatchs->setGameEndTimestamp($data['info']['gameEndTimestamp']);
+        $newMatchs->setGameLength($data['info']['participants']['challenges']['gameLength']);
+        $newMatchs->setKda($data['info']['participants']['challenges']['kda']);
+        $newMatchs->setChampLevel($data['info']['participants']['champLevel']);
+        $newMatchs->setChampionId($data['info']['participants']['championId']);
+        $newMatchs->setDeaths($data['info']['participants']['deaths']);
+        $newMatchs->setKills($data['info']['participants']['kills']);
+        $newMatchs->setAssists($data['info']['participants']['assists']);
+        $newMatchs->setChampionName($data['info']['participants']['championName']);
+        $newMatchs->setItem($items);
+        $newMatchs->setLane($data['info']['participants']['lane']);
+        $newMatchs->setWardsPlaced($data['info']['participants']['wardsPlaced']);
+        $newMatchs->setWin($data['info']['participants']['win']);
+        $newMatchs->setPuuid($puuid);
+        $newMatchs->setMatchid($data['metadata']['matchId']);
 
         $this->save($newMatchs, true);
     }
