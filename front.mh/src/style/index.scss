@@ -82,7 +82,37 @@ body{
     .map{
         width: 500px;
         height: 500px;
-        border: 2px solid red;
+        position: relative;
+        border: 2px solid rgba(255, 0, 0, 0.397);
+        .point{
+            width: 10px;
+            height: 10px;
+            // position: relative;
+            top: calc(100%);
+            left: calc(100%);
+            background-color: lime;
+        }
+        .player{
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            background-size: cover;
+            border-radius: 50%;
+            border: 3px solid #12151f;
+        }
+
+        .Lastkill{
+            background-image: url("./../image/killicon.png");
+            background-size: cover;
+            height: 20px;
+            border-radius: 50%;
+            width: 20px;
+            position: absolute;
+        }
+        .dead{
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
     }
 }
 
