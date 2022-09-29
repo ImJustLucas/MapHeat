@@ -12,8 +12,16 @@ export default class Map extends Component {
             timer: 0,
             frame: 0,
             start: false,
+            game: Game
         };
+
+        this.handleChangeFrame = this.handleChangeFrame.bind(this);
     }
+
+        handleChangeFrame(event){
+            this.setState({frame: event.target.value})
+            this.Start()
+        }
 
     //-----------------------------------------//
                     //FUNCTION
@@ -27,8 +35,11 @@ export default class Map extends Component {
     //Pose les events Kill sur la cart
     SetEventKill(x, y){
         if(this.state.start == true){
+
+
+            //Ajout icone kill
             const killicon = document.createElement('div')
-            killicon.className = 'Lastkill'
+            killicon.className = "Lastkill"
             killicon.style.left = 'calc(' + this.ConvertCoordToPercentX(x).toString() + '% - 15px )';
             killicon.style.top= 'calc(' + this.ConvertCoordToPercentY(y).toString() + '% - 15px )';
             document.getElementById("insert").parentNode.insertBefore(killicon, document.getElementById('insert'))
@@ -50,10 +61,33 @@ export default class Map extends Component {
         valuey = (valuey/15000) * 100;
         return valuey
     }
+
+    Start(){
+        const frame = this.state.game.info.frames[this.state.frame].events
+        console.log(Object.keys(this.state.game.info.frames).length)
+
+        //Supprimer icone kill
+
+        var test = document.getElementsByClassName('Lastkill');
+
+        for(var i = test.length - 1; i >= 0; --i){
+            test[i].remove()
+        }
+
+        // console.log(frame[31].position.x)
+
+        const ReadFrame = frame.forEach(element => {
+            this.state.start = true;
+            if(element.type == "CHAMPION_KILL"){
+                return this.SetEventKill(element.position.x, element.position.y)
+            }
+        });
+    }
+
+
     //-----------------------------------------//
                     //DidMount
     //-----------------------------------------//
-
 
     componentDidMount(){
         this.MovePlayerTo("1", 0, 0);
@@ -116,9 +150,9 @@ export default class Map extends Component {
                     <div id="insert">
                     </div>
                 </div>
-                <div class="slidecontainer">
-                    <p className='text-white text-3xl'>Frame : </p>
-                    <input type="range" min="0" max="10" value="0" step="1" id="Frame" />
+                <div className="slidecontainer">
+                    <p className='text-white text-3xl'>Frame : {this.state.frame}</p>
+                    <input type="range" min="0" max={Object.keys(this.state.game.info.frames).length - 1} value={this.state.frame} onChange={this.handleChangeFrame} />
                 </div>
             </div>
         )
