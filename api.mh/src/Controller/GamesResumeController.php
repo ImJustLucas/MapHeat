@@ -15,7 +15,7 @@ use Symfony\Component\HttpClient\HttpClient;
 class GamesResumeController extends AbstractController
 {
 	#[Route('/games/{username}', name: 'app_games_resume', methods: ['GET'])]
-	public function gamesByUsername(PlayerRepository $PlayerRepository, MatchResumeRepository $MatchResumeRepository, UtilsService $utils,  string $username): JsonResponse
+	public function gamesByUsername(PlayerRepository $PlayerRepository, MatchResumeRepository $MatchResumeRepository, UtilsService $utils, string $username): JsonResponse
 	{
 		// Variables
 		$httpClient = HttpClient::create();
@@ -34,6 +34,7 @@ class GamesResumeController extends AbstractController
 			}
 		}
 
+		//Si c'est un nouveau joueurs, on le crée
 		if (empty($gamer) || is_null($gamer)) {
 
 			$raw = $httpClient->request('GET', 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' . $username . '?api_key=' . $this->getParameter('app.riot_api_key'));
@@ -68,6 +69,7 @@ class GamesResumeController extends AbstractController
 
 			$game = $MatchResumeRepository->findOneBy(['Matchid' => $matchID]);
 
+			//Si la partie n'existe pas en BDD, on la créé
 			if (empty($game) || is_null($game)) {
 				$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/' . $matchID . '?api_key=' . $this->getParameter('app.riot_api_key'));
 				$match = json_decode($raw->getContent(), true);
