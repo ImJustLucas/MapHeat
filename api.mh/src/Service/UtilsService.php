@@ -59,7 +59,6 @@ class UtilsService
       "assists" => $data['info']['participants']['assists'],
       "championName" => $data['info']['participants']['championName'],
       "items" => $items,
-      "lane" => $data['info']['participants']['lane'],
       "wardsPlaced" => $data['info']['participants']['wardsPlaced'],
       "win" => $data['info']['participants']['win'],
       "puuid" => $puuid,

@@ -14,30 +14,27 @@ class MatchResume
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Player')]
+    #[ORM\ManyToOne(inversedBy: 'match_resume')]
     #[ORM\JoinColumn(nullable: false)]
     private ?player $player = null;
 
-    #[ORM\OneToOne(mappedBy: 'matchs', cascade: ['persist', 'remove'])]
-    private ?MatchTimeline $Matchs = null;
-
     #[ORM\Column(length: 255)]
-    private ?string $gameMode = null;
+    private ?string $game_mode = null;
 
     #[ORM\Column]
-    private ?float $gameEndTimestamp = null;
+    private ?float $game_end_timestamp = null;
 
     #[ORM\Column]
-    private ?float $gameLength = null;
+    private ?float $game_lenght = null;
 
     #[ORM\Column]
     private ?float $kda = null;
 
     #[ORM\Column]
-    private ?int $champLevel = null;
+    private ?int $champ_level = null;
 
     #[ORM\Column]
-    private ?int $championId = null;
+    private ?int $champion_id = null;
 
     #[ORM\Column]
     private ?int $deaths = null;
@@ -49,16 +46,25 @@ class MatchResume
     private ?int $assists = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $championName = null;
+    private ?string $champion_name = null;
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $item = [];
 
-    #[ORM\Column(length: 255)]
-    private ?string $lane = null;
+    #[ORM\Column]
+    private ?int $sum_1 = null;
 
     #[ORM\Column]
-    private ?int $wardsPlaced = null;
+    private ?int $sum_2 = null;
+
+    #[ORM\Column]
+    private ?int $perk_1 = null;
+
+    #[ORM\Column]
+    private ?int $perk_2 = null;
+
+    #[ORM\Column]
+    private ?int $wards_placed = null;
 
     #[ORM\Column]
     private ?bool $win = null;
@@ -67,7 +73,7 @@ class MatchResume
     private ?string $puuid = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Matchid = null;
+    private ?string $matchid = null;
 
     public function getId(): ?int
     {
@@ -86,55 +92,38 @@ class MatchResume
         return $this;
     }
 
-    public function getMatchs(): ?MatchTimeline
-    {
-        return $this->Matchs;
-    }
-
-    public function setMatchs(MatchTimeline $Matchs): self
-    {
-        // set the owning side of the relation if necessary
-        if ($Matchs->getMatchs() !== $this) {
-            $Matchs->setMatchs($this);
-        }
-
-        $this->Matchs = $Matchs;
-
-        return $this;
-    }
-
     public function getGameMode(): ?string
     {
-        return $this->gameMode;
+        return $this->game_mode;
     }
 
-    public function setGameMode(string $gameMode): self
+    public function setGameMode(string $game_mode): self
     {
-        $this->gameMode = $gameMode;
+        $this->game_mode = $game_mode;
 
         return $this;
     }
 
     public function getGameEndTimestamp(): ?float
     {
-        return $this->gameEndTimestamp;
+        return $this->game_end_timestamp;
     }
 
-    public function setGameEndTimestamp(float $gameEndTimestamp): self
+    public function setGameEndTimestamp(float $game_end_timestamp): self
     {
-        $this->gameEndTimestamp = $gameEndTimestamp;
+        $this->game_end_timestamp = $game_end_timestamp;
 
         return $this;
     }
 
-    public function getGameLength(): ?float
+    public function getGameLenght(): ?float
     {
-        return $this->gameLength;
+        return $this->game_lenght;
     }
 
-    public function setGameLength(float $gameLength): self
+    public function setGameLenght(float $game_lenght): self
     {
-        $this->gameLength = $gameLength;
+        $this->game_lenght = $game_lenght;
 
         return $this;
     }
@@ -153,24 +142,24 @@ class MatchResume
 
     public function getChampLevel(): ?int
     {
-        return $this->champLevel;
+        return $this->champ_level;
     }
 
-    public function setChampLevel(int $champLevel): self
+    public function setChampLevel(int $champ_level): self
     {
-        $this->champLevel = $champLevel;
+        $this->champ_level = $champ_level;
 
         return $this;
     }
 
     public function getChampionId(): ?int
     {
-        return $this->championId;
+        return $this->champion_id;
     }
 
-    public function setChampionId(int $championId): self
+    public function setChampionId(int $champion_id): self
     {
-        $this->championId = $championId;
+        $this->champion_id = $champion_id;
 
         return $this;
     }
@@ -213,12 +202,12 @@ class MatchResume
 
     public function getChampionName(): ?string
     {
-        return $this->championName;
+        return $this->champion_name;
     }
 
-    public function setChampionName(string $championName): self
+    public function setChampionName(string $champion_name): self
     {
-        $this->championName = $championName;
+        $this->champion_name = $champion_name;
 
         return $this;
     }
@@ -235,26 +224,62 @@ class MatchResume
         return $this;
     }
 
-    public function getLane(): ?string
+    public function getSum1(): ?int
     {
-        return $this->lane;
+        return $this->sum_1;
     }
 
-    public function setLane(string $lane): self
+    public function setSum1(int $sum_1): self
     {
-        $this->lane = $lane;
+        $this->sum_1 = $sum_1;
+
+        return $this;
+    }
+
+    public function getSum2(): ?int
+    {
+        return $this->sum_2;
+    }
+
+    public function setSum2(int $sum_2): self
+    {
+        $this->sum_2 = $sum_2;
+
+        return $this;
+    }
+
+    public function getPerk1(): ?int
+    {
+        return $this->perk_1;
+    }
+
+    public function setPerk1(int $perk_1): self
+    {
+        $this->perk_1 = $perk_1;
+
+        return $this;
+    }
+
+    public function getPerk2(): ?int
+    {
+        return $this->perk_2;
+    }
+
+    public function setPerk2(int $perk_2): self
+    {
+        $this->perk_2 = $perk_2;
 
         return $this;
     }
 
     public function getWardsPlaced(): ?int
     {
-        return $this->wardsPlaced;
+        return $this->wards_placed;
     }
 
-    public function setWardsPlaced(int $wardsPlaced): self
+    public function setWardsPlaced(int $wards_placed): self
     {
-        $this->wardsPlaced = $wardsPlaced;
+        $this->wards_placed = $wards_placed;
 
         return $this;
     }
@@ -285,12 +310,12 @@ class MatchResume
 
     public function getMatchid(): ?string
     {
-        return $this->Matchid;
+        return $this->matchid;
     }
 
-    public function setMatchid(string $Matchid): self
+    public function setMatchid(string $matchid): self
     {
-        $this->Matchid = $Matchid;
+        $this->matchid = $matchid;
 
         return $this;
     }

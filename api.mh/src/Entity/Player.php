@@ -16,27 +16,30 @@ class Player
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?int $player = null;
+
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: MatchResume::class)]
+    private Collection $match_resume;
+
     #[ORM\Column(length: 79)]
-    private ?string $PUUID = null;
+    private ?string $puuid = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $profilIconId = null;
+    private ?int $profil_icon_id = null;
 
     #[ORM\Column]
-    private ?float $summonerLV = null;
-
-    #[ORM\OneToMany(mappedBy: 'player', targetEntity: MatchResume::class, orphanRemoval: true)]
-    private Collection $Player;
+    private ?int $summoner_lv = null;
 
     #[ORM\Column(type: Types::ARRAY)]
-    private array $MatchsID = [];
+    private array $matchs_id = [];
 
     public function __construct()
     {
-        $this->Player = new ArrayCollection();
+        $this->match_resume = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,14 +47,56 @@ class Player
         return $this->id;
     }
 
-    public function getPUUID(): ?string
+    public function getPlayer(): ?int
     {
-        return $this->PUUID;
+        return $this->player;
     }
 
-    public function setPUUID(string $PUUID): self
+    public function setPlayer(int $player): self
     {
-        $this->PUUID = $PUUID;
+        $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MatchResume>
+     */
+    public function getMatchResume(): Collection
+    {
+        return $this->match_resume;
+    }
+
+    public function addMatchResume(MatchResume $matchResume): self
+    {
+        if (!$this->match_resume->contains($matchResume)) {
+            $this->match_resume->add($matchResume);
+            $matchResume->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMatchResume(MatchResume $matchResume): self
+    {
+        if ($this->match_resume->removeElement($matchResume)) {
+            // set the owning side to null (unless already changed)
+            if ($matchResume->getPlayer() === $this) {
+                $matchResume->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPuuid(): ?string
+    {
+        return $this->puuid;
+    }
+
+    public function setPuuid(string $puuid): self
+    {
+        $this->puuid = $puuid;
 
         return $this;
     }
@@ -70,66 +115,36 @@ class Player
 
     public function getProfilIconId(): ?int
     {
-        return $this->profilIconId;
+        return $this->profil_icon_id;
     }
 
-    public function setProfilIconId(int $profilIconId): self
+    public function setProfilIconId(int $profil_icon_id): self
     {
-        $this->profilIconId = $profilIconId;
+        $this->profil_icon_id = $profil_icon_id;
 
         return $this;
     }
 
-    public function getSummonerLV(): ?float
+    public function getSummonerLv(): ?int
     {
-        return $this->summonerLV;
+        return $this->summoner_lv;
     }
 
-    public function setSummonerLV(float $summonerLV): self
+    public function setSummonerLv(int $summoner_lv): self
     {
-        $this->summonerLV = $summonerLV;
+        $this->summoner_lv = $summoner_lv;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, MatchResume>
-     */
-    public function getPlayer(): Collection
+    public function getMatchsId(): array
     {
-        return $this->Player;
+        return $this->matchs_id;
     }
 
-    public function addPlayer(MatchResume $player): self
+    public function setMatchsId(array $matchs_id): self
     {
-        if (!$this->Player->contains($player)) {
-            $this->Player->add($player);
-            $player->setPlayer($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlayer(MatchResume $player): self
-    {
-        if ($this->Player->removeElement($player)) {
-            // set the owning side to null (unless already changed)
-            if ($player->getPlayer() === $this) {
-                $player->setPlayer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getMatchsID(): array
-    {
-        return $this->MatchsID;
-    }
-
-    public function setMatchsID(array $MatchsID): self
-    {
-        $this->MatchsID = $MatchsID;
+        $this->matchs_id = $matchs_id;
 
         return $this;
     }
