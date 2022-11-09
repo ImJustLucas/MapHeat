@@ -38,7 +38,17 @@ class PlayerRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function addPlayer($data): void
+    {
+        $newPlayer = new Player();
+        $newPlayer->setName($data['name']);
+        $newPlayer->setPUUID($data['puuid']);
+        $newPlayer->setProfilIconId($data['profileIconId']);
+        $newPlayer->setSummonerLV($data['summonerLevel']);
+        $newPlayer->setMatchsID($data['matchsID']);
 
+        $this->save($newPlayer, true);
+    }
 //    /**
 //     * @return Player[] Returns an array of Player objects
 //     */

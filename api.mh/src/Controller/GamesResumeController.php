@@ -42,7 +42,6 @@ class GamesResumeController extends AbstractController
 
 			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/' . $jsonAPI['puuid'] . '/ids?start=0&count=5&api_key=' . $this->getParameter('app.riot_api_key'));
 			$matchsID = json_decode($raw->getContent(), true);
-
 			$jsonAPI['matchsID'] = $matchsID;
 			$PlayerRepository->addPlayer($jsonAPI);
 
@@ -66,14 +65,13 @@ class GamesResumeController extends AbstractController
 			if ($count > $limit) {
 				break;
 			}
-
-			$game = $MatchResumeRepository->findOneBy(['Matchid' => $matchID]);
+			$game = $MatchResumeRepository->findOneBy(['matchid' => $matchID]);
 
 			//Si la partie n'existe pas en BDD, on la créé
 			if (empty($game) || is_null($game)) {
 				$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/' . $matchID . '?api_key=' . $this->getParameter('app.riot_api_key'));
 				$match = json_decode($raw->getContent(), true);
-
+				// dd($match['info']['participants']['perks']['styles'][1]['style']);
 				$player_in_match = [];
 
 				foreach ($match['info']['participants'] as $participant) {
@@ -81,7 +79,6 @@ class GamesResumeController extends AbstractController
 						$player_in_match = $participant;
 					}
 				}
-
 				$match['info']['participants'] = $player_in_match;
 				$items = $utils->getArrayItems($match['info']['participants']);
 

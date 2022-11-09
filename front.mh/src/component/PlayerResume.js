@@ -1,7 +1,7 @@
 import React, { Component,  useEffect, useState } from 'react';
 import axios from 'axios';
 
-const baseURL = "http://127.0.0.1:8000/games/Azzticow";
+const baseURL = "http://127.0.0.1:8000/games/hiimsaku";
 export default class PlayerResume extends React.Component {
 
   constructor(props) {

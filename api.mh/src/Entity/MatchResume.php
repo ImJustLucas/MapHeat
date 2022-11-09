@@ -14,10 +14,6 @@ class MatchResume
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'match_resume')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?player $player = null;
-
     #[ORM\Column(length: 255)]
     private ?string $game_mode = null;
 
@@ -80,17 +76,6 @@ class MatchResume
         return $this->id;
     }
 
-    public function getPlayer(): ?player
-    {
-        return $this->player;
-    }
-
-    public function setPlayer(?player $player): self
-    {
-        $this->player = $player;
-
-        return $this;
-    }
 
     public function getGameMode(): ?string
     {

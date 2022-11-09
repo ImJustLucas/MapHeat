@@ -16,12 +16,6 @@ class Player
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $player = null;
-
-    #[ORM\OneToMany(mappedBy: 'player', targetEntity: MatchResume::class)]
-    private Collection $match_resume;
-
     #[ORM\Column(length: 79)]
     private ?string $puuid = null;
 
@@ -47,17 +41,6 @@ class Player
         return $this->id;
     }
 
-    public function getPlayer(): ?int
-    {
-        return $this->player;
-    }
-
-    public function setPlayer(int $player): self
-    {
-        $this->player = $player;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, MatchResume>
