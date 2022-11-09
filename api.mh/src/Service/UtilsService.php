@@ -51,7 +51,7 @@ class UtilsService
   {
     $newMatchs = [
       "gameMode" => $data['info']['gameMode'],
-      "gameLength" => $data['info']['participants']['challenges']['gameLength'],
+      "gameLength" => $data['info']['gameDuration'],
       "champLevel" => $data['info']['participants']['champLevel'],
       "championId" => $data['info']['participants']['championId'],
       "deaths" => $data['info']['participants']['deaths'],

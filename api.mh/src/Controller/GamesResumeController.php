@@ -73,7 +73,6 @@ class GamesResumeController extends AbstractController
 				$match = json_decode($raw->getContent(), true);
 				// dd($match['info']['participants']['perks']['styles'][1]['style']);
 				$player_in_match = [];
-				dd($match);
 
 				foreach ($match['info']['participants'] as $participant) {
 					if ($participant['puuid'] === $user['PUUID']) {
