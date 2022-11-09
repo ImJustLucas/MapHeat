@@ -8,6 +8,7 @@ class UtilsService
   public function getArrayItems(array $data): array
   {
     $items = array();
+    // dd($data);
     for ($i = 0; $i < 7; $i++) {
       array_push($items, $data['item' . $i]);
     }
@@ -25,8 +26,7 @@ class UtilsService
   {
     $game = [
       "id" => $dirtyArray->getId(),
-      "player" => $dirtyArray->getPlayer(),
-      "Matchs" => $dirtyArray->getMatchs(),
+      "Matchs" => $dirtyArray->getMatchid(),
       "kda" => $dirtyArray->getKda(),
       "champLevel" => $dirtyArray->getChampLevel(),
       "championId" =>  $dirtyArray->getChampionId(),
@@ -35,7 +35,10 @@ class UtilsService
       "assists" =>  $dirtyArray->getAssists(),
       "championName" =>  $dirtyArray->getChampionName(),
       "item" =>  $dirtyArray->getItem(),
-      "lane" => $dirtyArray->getLane(),
+      "sum_1" => $dirtyArray->getSum1(),
+      "sum_2" => $dirtyArray->getSum2(),
+      "perk_1" => $dirtyArray->getPerk1(),
+      "perk_2" => $dirtyArray->getPerk2(),
       "wardsPlaced" => $dirtyArray->getWardsPlaced(),
       "win" => $dirtyArray->isWin(),
       "puuid" => $dirtyArray->getPuuid(),
@@ -59,7 +62,10 @@ class UtilsService
       "assists" => $data['info']['participants']['assists'],
       "championName" => $data['info']['participants']['championName'],
       "items" => $items,
-      "lane" => $data['info']['participants']['lane'],
+      "sum_1" => $data['info']['participants']['summoner1Id'],
+      "sum_2" => $data['info']['participants']['summoner2Id'],
+      "perk_1" => $data['info']['participants']['perks']['styles'][0]['selections'][0]['perk'],
+      "perk_2" => $data['info']['participants']['perks']['styles'][1]['style'],
       "wardsPlaced" => $data['info']['participants']['wardsPlaced'],
       "win" => $data['info']['participants']['win'],
       "puuid" => $puuid,
