@@ -27,7 +27,6 @@ class UtilsService
     $game = [
       "id" => $dirtyArray->getId(),
       "Matchs" => $dirtyArray->getMatchid(),
-      "kda" => $dirtyArray->getKda(),
       "champLevel" => $dirtyArray->getChampLevel(),
       "championId" =>  $dirtyArray->getChampionId(),
       "deaths" =>  $dirtyArray->getDeaths(),
@@ -52,9 +51,7 @@ class UtilsService
   {
     $newMatchs = [
       "gameMode" => $data['info']['gameMode'],
-      "gameEndTimestamp" => $data['info']['gameEndTimestamp'],
       "gameLength" => $data['info']['participants']['challenges']['gameLength'],
-      "kda" => $data['info']['participants']['challenges']['kda'],
       "champLevel" => $data['info']['participants']['champLevel'],
       "championId" => $data['info']['participants']['championId'],
       "deaths" => $data['info']['participants']['deaths'],

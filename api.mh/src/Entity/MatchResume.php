@@ -18,13 +18,7 @@ class MatchResume
     private ?string $game_mode = null;
 
     #[ORM\Column]
-    private ?float $game_end_timestamp = null;
-
-    #[ORM\Column]
     private ?float $game_lenght = null;
-
-    #[ORM\Column]
-    private ?float $kda = null;
 
     #[ORM\Column]
     private ?int $champ_level = null;
@@ -89,18 +83,6 @@ class MatchResume
         return $this;
     }
 
-    public function getGameEndTimestamp(): ?float
-    {
-        return $this->game_end_timestamp;
-    }
-
-    public function setGameEndTimestamp(float $game_end_timestamp): self
-    {
-        $this->game_end_timestamp = $game_end_timestamp;
-
-        return $this;
-    }
-
     public function getGameLenght(): ?float
     {
         return $this->game_lenght;
@@ -113,17 +95,6 @@ class MatchResume
         return $this;
     }
 
-    public function getKda(): ?float
-    {
-        return $this->kda;
-    }
-
-    public function setKda(float $kda): self
-    {
-        $this->kda = $kda;
-
-        return $this;
-    }
 
     public function getChampLevel(): ?int
     {

@@ -42,9 +42,7 @@ class MatchResumeRepository extends ServiceEntityRepository
     {
         $newMatchs = new MatchResume();
         $newMatchs->setGameMode($data['info']['gameMode']);
-        $newMatchs->setGameEndTimestamp($data['info']['gameEndTimestamp']);
         $newMatchs->setGameLenght($data['info']['gameDuration']);
-        $newMatchs->setKda($data['info']['participants']['challenges']['kda']);
         $newMatchs->setChampLevel($data['info']['participants']['champLevel']);
         $newMatchs->setChampionId($data['info']['participants']['championId']);
         $newMatchs->setDeaths($data['info']['participants']['deaths']);
