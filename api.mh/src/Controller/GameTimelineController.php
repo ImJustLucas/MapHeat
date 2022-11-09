@@ -42,7 +42,6 @@ class GameTimelineController extends AbstractController
             $matchTimelineRepository->addMatchTimeline($matchTimeline, $matchID);
         }
 
-
         return $this->json([
             'message' => 'Get timeline of a match',
             'matchID' => $matchID,
