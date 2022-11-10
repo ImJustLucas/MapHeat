@@ -1,17 +1,21 @@
-import React, { Component,  useEffect, useState } from 'react';
-import axios from 'axios';
+import React from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-const baseURL = "http://127.0.0.1:8000/games/hiimsaku";
-export default class PlayerResume extends React.Component {
+function withParams(Component) {
+  return (props) => <Component {...props} params={useParams()} />;
+}
 
+class PlayerResume extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isLoading: true, persons: undefined };
   }
 
   componentDidMount() {
-    console.debug("After mount! Let's load data from API...");
-    axios.get(baseURL).then(response => {
+    const { pseudo } = this.props.params;
+    axios.get(`http://127.0.0.1:8000/games/${pseudo}`).then((response) => {
+      console.log(response.data);
       this.setState({ persons: response.data });
       this.setState({ isLoading: false });
     });
@@ -34,3 +38,4 @@ export default class PlayerResume extends React.Component {
   }
 }
 
+export default withParams(PlayerResume);
