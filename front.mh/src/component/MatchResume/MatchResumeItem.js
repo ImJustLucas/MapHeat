@@ -2,7 +2,7 @@ import React from 'react';
 
 function MatchResumeItem({ dataToChild }) {
     let itemList=[];
-    dataToChild.item.forEach((item,index)=>{
+    dataToChild.item?.forEach((item,index)=>{
         
         if (item == 0) {
             itemList.push (<div key={index} ></div>)

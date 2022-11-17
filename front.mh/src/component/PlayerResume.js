@@ -1,19 +1,26 @@
-import React, { Component, useEffect, useState } from 'react';
-import axios from 'axios';
+
+import React from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import MatchResumeRow from './MatchResume/MatchResumeRow';
-
-const playerUrl = "http://127.0.0.1:8000/games/WoiKî";
 const summonerUrl = 'https://ddragon.leagueoflegends.com/cdn/12.21.1/data/en_US/summoner.json';
-export default class PlayerResume extends React.Component {
 
+function withParams(Component) {
+  return (props) => <Component {...props} params={useParams()} />;
+}
+
+
+class PlayerResume extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isLoading: true, persons: undefined, summonerData: undefined };
   }
 
   componentDidMount() {
-    console.debug("After mount! Let's load data from API...");
-    axios.get(playerUrl).then(response => {
+
+    const { pseudo } = this.props.params;
+    axios.get(`http://127.0.0.1:8000/games/${pseudo}`).then((response) => {
+      console.log(response.data);
       this.setState({ persons: response.data });
       this.setState({ isLoading: false });
     });
@@ -73,3 +80,4 @@ export default class PlayerResume extends React.Component {
   }
 }
 
+export default withParams(PlayerResume);
