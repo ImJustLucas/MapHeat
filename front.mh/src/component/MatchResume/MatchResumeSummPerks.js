@@ -15,7 +15,7 @@ function MatchResumeSummPerks(summonerData) {
     ))
     }
     return (
-        <div>
+        <div className='mcresume__banner--img-summ'>
            {SummList}
         </div>
     );

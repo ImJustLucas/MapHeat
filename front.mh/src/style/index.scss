@@ -335,4 +335,12 @@ body{
     border-radius: 10px;
     background-color: grey;
 }
-
+.mcresume__banner--img-summ {
+    display: flex;
+    gap: 10px;
+}
+.mcresume__banner--img-summ img {
+    max-height: 30px;
+    max-width: 30px;
+    border-radius: 10px;
+}

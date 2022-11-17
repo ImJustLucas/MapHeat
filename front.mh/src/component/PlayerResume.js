@@ -3,6 +3,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import MatchResumeRow from './MatchResume/MatchResumeRow';
+import { Link } from "react-router-dom";
 const summonerUrl = 'https://ddragon.leagueoflegends.com/cdn/12.21.1/data/en_US/summoner.json';
 
 function withParams(Component) {
@@ -13,8 +14,12 @@ function withParams(Component) {
 class PlayerResume extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: true, persons: undefined, summonerData: undefined };
+    this.state = { isLoading: true, persons: undefined, summonerData: undefined, pseudo: "" };
+    this.handleChangePseudo = this.handleChangePseudo.bind(this);
   }
+  handleChangePseudo = (event) => {
+    this.setState({ pseudo: event.target.value });
+  };
 
   componentDidMount() {
 
@@ -26,7 +31,7 @@ class PlayerResume extends React.Component {
     });
 
     axios.get(summonerUrl).then(response => {
-      this.setState({ summonerData: response.data.data });;  
+      this.setState({ summonerData: response.data.data });;
     });
   }
 
@@ -38,23 +43,23 @@ class PlayerResume extends React.Component {
     // console.log(persons);
     // console.log(summonerData); 
     const firstSlicedArray = persons.matchs.slice(0, 2);
-    
+
     const secondSlicedArray = persons.matchs.slice(2);
-    // console.log(persons);
     return (
       <div className="App">
-        {/* {console.log(summonerData)} */}
-        {/* <h1>{persons.matchs[1].Matchid}</h1> */}
-        {/* <li>{this.state.persons.matchs[1].Matchid}</li> */}
-        {/* <img alt={persons.name} src={persons.sprites.front_default} /> */}
         <section className="mcresume">
           <div className='mcresume__bgfilter'></div>
         </section>
         <div className="mcresume__header">
-          <form action="" method="post" className='mcresume__header--wrap'>
-            <input type="text" name="pseudo" id="" placeholder="Pseudo" />
-            <button type="submit">ANALYSER VOTRE PARTY</button>
-          </form>
+          <div action="" method="post" className='mcresume__header--wrap'>
+            <input value={this.state.pseudo}
+              onChange={this.handleChangePseudo}
+              id="UserEmail"
+              placeholder="Pseudo" />
+            <Link onClick={this.forceUpdate} to={`/player/${this.state.pseudo}`}>
+              <button >ANALYSER VOTRE PARTY</button>
+            </Link>
+          </div>
         </div>
         <div className="mcresume__banner">
           <div className="mcresume__banner--infos">
@@ -67,11 +72,11 @@ class PlayerResume extends React.Component {
             </div>
           </div>
           {firstSlicedArray.map((match, index) => (
-                      <MatchResumeRow key={index} parentToChild={persons} summonerData={summonerData} bannerMatch={match} />
-          ))} 
+            <MatchResumeRow key={index} parentToChild={persons} summonerData={summonerData} bannerMatch={match} />
+          ))}
         </div>
         <div className="mcresume__match">
-        {/* {secondSlicedArray.map((match, index) => (
+          {/* {secondSlicedArray.map((match, index) => (
                       <MatchResumeRow key={index} parentToChild={persons} summonerData={summonerData} bannerMatch={match} />
           ))}  */}
         </div>
