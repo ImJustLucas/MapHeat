@@ -27,6 +27,8 @@ class UtilsService
     $game = [
       "id" => $dirtyArray->getId(),
       "Matchs" => $dirtyArray->getMatchid(),
+      "gameLength" => $dirtyArray->getGameLenght(),
+      "gameMode" => $dirtyArray->getGameMode(),
       "champLevel" => $dirtyArray->getChampLevel(),
       "championId" =>  $dirtyArray->getChampionId(),
       "deaths" =>  $dirtyArray->getDeaths(),
