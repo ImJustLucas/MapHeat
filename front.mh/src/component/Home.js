@@ -24,7 +24,6 @@ export default class Home extends Component {
                         Pseudo
                     </span>
                     </label>
-
                     <a className="my-5 relative inline-block text-sm font-medium text-amber-400 active:text-amber-200 group focus:outline-none focus:ring">
                         <span className="block px-6 py-3 transition-transform border border-current group-hover:-translate-x-1 group-hover:-translate-y-1 hover:bg-amber-400 hover:text-slate-900 text-xl text-amber-400 uppercase cursor-pointer font-extralight hover:font-normal tracking-widest">
                             Analyser votre partie
