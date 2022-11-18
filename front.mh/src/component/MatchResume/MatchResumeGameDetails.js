@@ -3,7 +3,6 @@ import MatchResumeItem from './MatchResumeItem';
 import MatchResumeSummPerks from './MatchResumeSummPerks';
 function MatchResumeGameDetails({ data, summonerData }) {
   const arr = [data]
-  
   return (
     <div className='mcresume__banner--details'>
       {arr.map((match, index) => (

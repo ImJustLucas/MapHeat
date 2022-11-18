@@ -17,6 +17,7 @@ class PlayerResume extends React.Component {
     this.state = { isLoading: true, persons: undefined, summonerData: undefined, pseudo: "" };
     this.handleChangePseudo = this.handleChangePseudo.bind(this);
   }
+  
   handleChangePseudo = (event) => {
     this.setState({ pseudo: event.target.value });
   };
@@ -25,7 +26,6 @@ class PlayerResume extends React.Component {
 
     const { pseudo } = this.props.params;
     axios.get(`http://127.0.0.1:8000/games/${pseudo}`).then((response) => {
-      console.log(response.data);
       this.setState({ persons: response.data });
       this.setState({ isLoading: false });
     });
@@ -40,11 +40,19 @@ class PlayerResume extends React.Component {
     if (isLoading) {
       return <div className="App">Loading...</div>;
     }
-    // console.log(persons);
+    console.log(persons.matchs);
     // console.log(summonerData); 
     const firstSlicedArray = persons.matchs.slice(0, 2);
 
     const secondSlicedArray = persons.matchs.slice(2);
+    let PassClassM1 = {
+      Classrow : "mcresume__banner--wrapmc",
+      Classflex : "mcresume__banner--flex"
+    }
+    let PassClassM2 = {
+      Classrow : "mcresume__match-boxwrap",
+      Classflex: "mcresume__match--ftbox"
+    }
     return (
       <div className="App">
         <section className="mcresume">
@@ -72,13 +80,13 @@ class PlayerResume extends React.Component {
             </div>
           </div>
           {firstSlicedArray.map((match, index) => (
-            <MatchResumeRow key={index} parentToChild={persons} summonerData={summonerData} bannerMatch={match} />
+            <MatchResumeRow Passclass={PassClassM1} key={index} summonerData={summonerData} bannerMatch={match} />
           ))}
         </div>
         <div className="mcresume__match">
-          {/* {secondSlicedArray.map((match, index) => (
-                      <MatchResumeRow key={index} parentToChild={persons} summonerData={summonerData} bannerMatch={match} />
-          ))}  */}
+          {secondSlicedArray.map((match, index) => (
+                      <MatchResumeRow Passclass={PassClassM2} key={index} summonerData={summonerData} bannerMatch={match} />
+          ))} 
         </div>
       </div>
     );

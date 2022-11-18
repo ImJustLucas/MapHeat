@@ -25,7 +25,7 @@ class GamesResumeController extends AbstractController
 		$matchs = [];
 		$newMatch = [];
 		$count = 0;
-		$limit = 5;
+		$limit = 10;
 
 		foreach ($players as $player) {
 			$playersName = $utils->formatUsername($player->getName());
@@ -40,7 +40,7 @@ class GamesResumeController extends AbstractController
 			$raw = $httpClient->request('GET', 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' . $username . '?api_key=' . $this->getParameter('app.riot_api_key'));
 			$jsonAPI = json_decode($raw->getContent(), true);
 
-			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/' . $jsonAPI['puuid'] . '/ids?start=0&count=5&api_key=' . $this->getParameter('app.riot_api_key'));
+			$raw = $httpClient->request('GET', 'https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/' . $jsonAPI['puuid'] . '/ids?start=0&count=10&api_key=' . $this->getParameter('app.riot_api_key'));
 			$matchsID = json_decode($raw->getContent(), true);
 			$jsonAPI['matchsID'] = $matchsID;
 			$PlayerRepository->addPlayer($jsonAPI);
@@ -92,7 +92,7 @@ class GamesResumeController extends AbstractController
 			$count++;
 		}
 		return $this->json([
-			'message' => 'Get the resume of the last 5 games',
+			'message' => 'Get the resume of the last 10 games',
 			'username' => $username,
 			'user' => $user,
 			'matchs' => $matchs,

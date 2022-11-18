@@ -12,7 +12,6 @@ function MatchResumeGameStatus({ data }) {
             WinList.push(<h4 key={index}>Défaite</h4>)
         }
     })}
-    console.log(WinList)
     return (
         <div>
             {arr.map((match, index) => (

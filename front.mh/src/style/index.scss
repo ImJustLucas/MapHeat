@@ -236,11 +236,16 @@ body{
     justify-content: center;
     align-self: center;
     flex: 1;
+    display: flex;
+    flex-direction: column;
     max-width: 550px;
     background-color: rgba(217, 217, 217, 0.5019607843);
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
     padding: 10px;
+}
+.mcresume__banner--flex {
+display: flex;
 }
 .mcresume__banner--wrapbox {
     display: flex;
@@ -297,6 +302,7 @@ body{
     border-radius: 10px;
     box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
     padding: 10px;
+    border: 2px solid #AB8300;
 }
 .mcresume__banner--details {
     display: flex;
@@ -343,4 +349,38 @@ body{
     max-height: 30px;
     max-width: 30px;
     border-radius: 10px;
+}
+.mcresume__match {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.mcresume__match-boxwrap {
+    display: flex;
+    gap: 20px;
+    flex: 1 0 21%; /* explanation below */
+    flex-direction: column;
+    max-width: 550px;
+    background-color: rgba(217, 217, 217, 0.5019607843);
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px 0px rgb(0 0 0 / 25%);
+    padding: 10px;
+}
+.mcresume__match--ftbox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.mcLink {
+    display: flex;
+    background-color: #D9D9D9;
+    padding: 5px;
+    width: 130px;
+    justify-content: center;
+    align-self: center;
+    border-radius: 20px;
+}
+.mcLink a {
+    color: #AB8300;
+    font-size: 10px;
 }
