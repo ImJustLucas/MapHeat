@@ -41,15 +41,28 @@ export default class Map extends Component {
         this.deincrementeState = this.deincrementeState.bind(this);
     }
 
-        handleChangeFrame(event){
-            this.setState({frame: event.target.value});
-            this.Start()
+    handleChangeFrame(event){
+        if(event.target.value > this.state.frame){
+            var minute = this.state.frame + 1;
+            for (let index = 0; index < event.target.value - this.state.frame ; index++) {
+                this.setState({frame: minute});
+                this.Start(minute, "up")
+                minute = minute + 1;
+            }
+        }else if(event.target.value < this.state.frame){
+            var minute = this.state.frame;
+            for (let index = 0; index < this.state.frame - event.target.value ; index++){
+                this.setState({frame: minute});
+                this.Start(minute, "down")
+                minute = minute - 1;
+                this.setState({frame: minute});
+                this.Start(minute, "null")
+            }
         }
+    }
 
-    //-----------------------------------------//
-                    //FUNCTION
-    //-----------------------------------------//
 
+    //Deplacement player
     MovePlayerTo(playerid, x, y){
         const MovePlayer = document.getElementById(playerid);
         MovePlayer.style.left = 'calc(' + x.toString() + '% - 15px )';
@@ -111,18 +124,14 @@ export default class Map extends Component {
                 break;
             }
         }
-    
         return status;
     }
 
-    //Inventaire
+    //Inventaire (usine a gaz)
     PlayerInv(player, itemID, method, itemBis = "null"){
-        if(player === 6){
-            console.log(player, itemID, method, itemBis)
-        }
-        //Certains items sont problématique donc c'est ban
+        //Certains items sont problématique car évolution ... donc relou
         if(itemID === 2010 || itemID === 2422 || itemID === 2140 || itemID === 3851 || itemID === 3859){
-            console.log("Invalid property item");
+            console.log("Item invalid désoler");
             return null;
         }else{
             if(method === "SET"){
@@ -144,11 +153,6 @@ export default class Map extends Component {
                         var ItemInv = this.state["player"+player+"I"];
                         ItemInv.splice(ItemInv.indexOf(itemID), 1)
                     }else{
-                        if(player === 5){
-                            console.log("ERREUR 2" + itemID)
-                            console.log(ItemInv.indexOf(itemID))
-                            console.log(this.state["player"+player+"I"])
-                        }
                         return null
                     }
                 }
@@ -315,11 +319,12 @@ export default class Map extends Component {
                     <p className='text-white text-3xl'>Minute : {this.state.frame}</p>
                     {/* <input type="range" min="0" max={Object.keys(this.state.game.info.frames).length - 1} value={this.state.frame} onChange={this.handleChangeFrame} /> */}
                     {/* <button onClick={this.incrementeState()}>-1</button> */}
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.deincrementeState}>-1</button>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.incrementeState}>+1</button>
-                    <p>TimeLine {this.state.gameL}</p>                    
-                    <input id="large-range" type="range" value={this.state.frame} min="0" max={this.state.gameL} step="1" className="my-4 w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"></input>
-
+                    {/* <p>TimeLine {this.state.gameL}</p>                     */}
+                    <div>
+                        <input id="large-range" type="range" defaultValue={this.state.frame} min="0" max={this.state.gameL} onChange={this.handleChangeFrame} step="1" className="my-4 w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"></input>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.deincrementeState}>-1</button>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.incrementeState}>+1</button>
+                    </div>
                 </div>
             </div>
         )
