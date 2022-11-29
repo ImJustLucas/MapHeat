@@ -127,3 +127,9 @@ body{
 .match{
     border-left: 4px solid green;
 }
+
+.slidecontainer{
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+}
