@@ -17,7 +17,7 @@ class PlayerResume extends React.Component {
     this.state = { isLoading: true, persons: undefined, summonerData: undefined, pseudo: "" };
     this.handleChangePseudo = this.handleChangePseudo.bind(this);
   }
-  
+
   handleChangePseudo = (event) => {
     this.setState({ pseudo: event.target.value });
   };
@@ -46,11 +46,11 @@ class PlayerResume extends React.Component {
 
     const secondSlicedArray = persons.matchs.slice(2);
     let PassClassM1 = {
-      Classrow : "mcresume__banner--wrapmc",
-      Classflex : "mcresume__banner--flex"
+      Classrow: "mcresume__banner--wrapmc",
+      Classflex: "mcresume__banner--flex"
     }
     let PassClassM2 = {
-      Classrow : "mcresume__match-boxwrap",
+      Classrow: "mcresume__match-boxwrap",
       Classflex: "mcresume__match--ftbox"
     }
     return (
@@ -79,14 +79,17 @@ class PlayerResume extends React.Component {
               </div>
             </div>
           </div>
-          {firstSlicedArray.map((match, index) => (
-            <MatchResumeRow Passclass={PassClassM1} key={index} summonerData={summonerData} bannerMatch={match} />
-          ))}
+          <div className="mcresume__banner--bigbox">
+            {firstSlicedArray.map((match, index) => (
+              <MatchResumeRow Passclass={PassClassM1} key={index} summonerData={summonerData} bannerMatch={match} />
+            ))}
+          </div>
+
         </div>
         <div className="mcresume__match">
           {secondSlicedArray.map((match, index) => (
-                      <MatchResumeRow Passclass={PassClassM2} key={index} summonerData={summonerData} bannerMatch={match} />
-          ))} 
+            <MatchResumeRow Passclass={PassClassM2} key={index} summonerData={summonerData} bannerMatch={match} />
+          ))}
         </div>
       </div>
     );
