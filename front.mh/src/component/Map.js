@@ -1,5 +1,6 @@
 import React, { Component, useState} from 'react';
 import Game from './../Data/gametest.json';
+import InventoryPlayer from './carte/InventoryPlayer';
 
 export default class Map extends Component {
     constructor(props){
@@ -11,8 +12,27 @@ export default class Map extends Component {
             frame: 0,
             start: false,
             game: Game,
+            gameL: 0,
             player1I : [],
-            player1IB : "",
+            player2I : [],
+            player3I : [],
+            player4I : [],
+            player5I : [],
+            player6I : [],
+            player7I : [],
+            player8I : [],
+            player9I : [],
+            player10I : [],
+            player1IB : 3340,
+            player2IB : 3340,
+            player3IB : 3340,
+            player4IB : 3340,
+            player5IB : 3340,
+            player6IB : 3340,
+            player7IB : 3340,
+            player8IB : 3340,
+            player9IB : 3340,
+            player10IB : 3340,
         };
 
 
@@ -21,15 +41,28 @@ export default class Map extends Component {
         this.deincrementeState = this.deincrementeState.bind(this);
     }
 
-        handleChangeFrame(event){
-            this.setState({frame: event.target.value});
-            this.Start()
+    handleChangeFrame(event){
+        if(event.target.value > this.state.frame){
+            var minute = this.state.frame + 1;
+            for (let index = 0; index < event.target.value - this.state.frame ; index++) {
+                this.setState({frame: minute});
+                this.Start(minute, "up")
+                minute = minute + 1;
+            }
+        }else if(event.target.value < this.state.frame){
+            var minute = this.state.frame;
+            for (let index = 0; index < this.state.frame - event.target.value ; index++){
+                this.setState({frame: minute});
+                this.Start(minute, "down")
+                minute = minute - 1;
+                this.setState({frame: minute});
+                this.Start(minute, "null")
+            }
         }
+    }
 
-    //-----------------------------------------//
-                    //FUNCTION
-    //-----------------------------------------//
 
+    //Deplacement player
     MovePlayerTo(playerid, x, y){
         const MovePlayer = document.getElementById(playerid);
         MovePlayer.style.left = 'calc(' + x.toString() + '% - 15px )';
@@ -81,54 +114,81 @@ export default class Map extends Component {
         this.Start(minute, "null")
     }
 
-    //Inventaire
+    checkValue(value, arr) {
+        var status = false;
+    
+        for (var i = 0; i < arr.length; i++) {
+            var name = arr[i];
+            if (name == value) {
+                status = true;
+                break;
+            }
+        }
+        return status;
+    }
+
+    //Inventaire (usine a gaz)
     PlayerInv(player, itemID, method, itemBis = "null"){
-        if(method === "SET"){
-            if(player === 1){
-                if(itemID === 3340){
-                    this.setState({player1IB: itemID})
+        //Certains items sont problématique car évolution ... donc relou
+        if(itemID === 2010 || itemID === 2422 || itemID === 2140 || itemID === 3851 || itemID === 3859){
+            console.log("Item invalid désoler");
+            return null;
+        }else{
+            if(method === "SET"){
+                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513){
+                    this.setState({ ["player"+player+"IB"]: itemID})
+                    // this.setState({ [`player${player}IB`]: itemID})
                 }else{
-                    var ItemInv = this.state.player1I;
+                    var ItemInv = this.state["player"+player+"I"];
                     ItemInv.push(itemID);
+                }
+            }
+            if(method === "DELETE"){
+                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513){
+                    this.setState({ [`player${player}IB`]: itemID})
+                }else{
+                    //supprime item a l'inventaire
+            
+                    if(this.checkValue(itemID, this.state["player"+player+"I"])){
+                        var ItemInv = this.state["player"+player+"I"];
+                        ItemInv.splice(ItemInv.indexOf(itemID), 1)
+                    }else{
+                        return null
+                    }
+                }
+            }
+            if(method === "UNDO"){
+                var ItemInv = this.state["player"+player+"I"];
+                //ITEM BIS = before
+                //ITEM ID = After
+                if(itemID === 0){
+                    var Indexdelete = ItemInv.indexOf(itemBis);
+                    ItemInv.splice(Indexdelete, 1)    
+                }else{
+                    var Indexdelete = ItemInv.indexOf(itemBis);
+                    ItemInv.splice(Indexdelete, 1, itemID)    
+                }
+            }
+            if(method === "UNDO_r"){
+                var ItemInv = this.state["player"+player+"I"];
+                if(itemID === 0){
+                    ItemInv.push(itemBis);   
+                }else{
+                    var index = ItemInv.indexOf(itemID);
+                    if (index > -1) {
+                        ItemInv.splice(index, 1);
+                    }
+
                 }
             }
 
         }
-        if(method === "DELETE"){
-            //supprime item a l'inventaire
-            if(player === 1){
-                var ItemInv = this.state.player1I;
-                var Indexdelete = ItemInv.indexOf(itemID);
-                ItemInv.splice(Indexdelete, 1)
-            }
-        }
-        if(method === "UNDO"){
-            if(player === 1){
-                var ItemInv = this.state.player1I;
-                if(itemID === 0){
-                    var Indexdelete = ItemInv.indexOf(itemBis);
-                    ItemInv.splice(Indexdelete, 1)     
-                }else{
-                    var Indexdelete = ItemInv.indexOf(itemBis);
-                    ItemInv[Indexdelete] = itemID;
-                }
-            }
-        }
-        if(method === "UNDO_r"){
-            if(player === 1){
-                var ItemInv = this.state.player1I;
-                if(itemID === 0){
-                    ItemInv.push(itemBis);   
-                }else{
-                    var Indexdelete = ItemInv.indexOf(itemID);
-                    ItemInv[Indexdelete] = itemBis;
-                }
-            }
-        }
+
     }
 
     Start(a, status){
         const frame = this.state.game.info.frames[a].events
+
 
         //Supprimer icone kill
 
@@ -139,7 +199,7 @@ export default class Map extends Component {
         }
 
         if(status === "down"){
-            for(i = frame.length - 1; i>0;i--){
+            for(i = frame.length - 1; i>=0;i--){
                 if(frame[i].type === "ITEM_DESTROYED" || frame[i].type === "ITEM_SOLD"){
                     this.PlayerInv(frame[i].participantId, frame[i].itemId, "SET");
                 }
@@ -160,6 +220,7 @@ export default class Map extends Component {
             }
             if(status === "up"){
                 if(element.type === "ITEM_PURCHASED"){
+
                     this.PlayerInv(element.participantId, element.itemId, "SET");
                 }
                 if(element.type === "ITEM_DESTROYED" || element.type === "ITEM_SOLD"){
@@ -179,6 +240,8 @@ export default class Map extends Component {
 
     componentDidMount(){
 
+        const GLength = Game.info.frames.length - 1;
+        this.setState({gameL : GLength})
 
     }
 
@@ -228,47 +291,40 @@ export default class Map extends Component {
                         </div>
                     </div>
                     <div>
-                        <div className='card'>
-                            <p className='text-white text-xl'>Joueur 1</p>
-                            <div className='flex flex-row gap-1'>
-                                <div className='flex flex-row gap-1'>
-                                    <div className='w-10 h-10 border'>
-                                        { this.state.player1I[0] ? (<img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/item/${this.state.player1I[0]}.png`} />): (<span></span>)}
-                                    </div>
-                                    <div className='w-10 h-10 border'>
-                                        { this.state.player1I[1] ? (<img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/item/${this.state.player1I[1]}.png`} />): (<span></span>)}
-                                    </div>
-                                    <div className='w-10 h-10 border'>
-                                        { this.state.player1I[2] ? (<img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/item/${this.state.player1I[2]}.png`} />): (<span></span>)}
-                                    </div>
-                                </div>
-                                <div className='flex flex-row gap-1'>
-                                    <div className='w-10 h-10 border'>
-                                        { this.state.player1I[3] ? (<img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/item/${this.state.player1I[3]}.png`} />): (<span></span>)}
-                                    </div>
-                                    <div className='w-10 h-10 border'>
-                                        { this.state.player1I[4] ? (<img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/item/${this.state.player1I[4]}.png`} />): (<span></span>)}
-                                    </div>
-                                    <div className='w-10 h-10 border'>
-                                        { this.state.player1I[5] ? (<img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/item/${this.state.player1I[5]}.png`} />): (<span></span>)}
-                                    </div>
-                                </div>
-                                <div className='flex flex-row gap-1'>
-                                    <div className='w-10 h-10 border'>
-                                        { this.state.player1IB ? (<img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/item/${this.state.player1IB}.png`} />): (<span></span>)}
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        {/* <div className='card'>
+                        </div> */}
+                        <p className='text-white text-xl'>Joueur 1</p>
+                        <InventoryPlayer playerI={this.state.player1I} playerIB={this.state.player1IB}/>
+                        <p className='text-white text-xl'>Joueur 2</p>
+                        <InventoryPlayer playerI={this.state.player2I} playerIB={this.state.player2IB}/>
+                        <p className='text-white text-xl'>Joueur 3</p>
+                        <InventoryPlayer playerI={this.state.player3I} playerIB={this.state.player3IB}/>
+                        <p className='text-white text-xl'>Joueur 4</p>
+                        <InventoryPlayer playerI={this.state.player4I} playerIB={this.state.player4IB}/>
+                        <p className='text-white text-xl'>Joueur 5</p>
+                        <InventoryPlayer playerI={this.state.player5I} playerIB={this.state.player5IB}/>
+                        <p className='text-white text-xl'>Joueur 6</p>
+                        <InventoryPlayer playerI={this.state.player6I} playerIB={this.state.player6IB}/>
+                        <p className='text-white text-xl'>Joueur 7</p>
+                        <InventoryPlayer playerI={this.state.player7I} playerIB={this.state.player7IB}/>
+                        <p className='text-white text-xl'>Joueur 8</p>
+                        <InventoryPlayer playerI={this.state.player8I} playerIB={this.state.player8IB}/>
+                        <p className='text-white text-xl'>Joueur 9</p>
+                        <InventoryPlayer playerI={this.state.player9I} playerIB={this.state.player9IB}/>
+                        <p className='text-white text-xl'>Joueur 10</p>
+                        <InventoryPlayer playerI={this.state.player10I} playerIB={this.state.player10IB}/>
                     </div>
                 </div>
                 <div className="slidecontainer">
                     <p className='text-white text-3xl'>Minute : {this.state.frame}</p>
                     {/* <input type="range" min="0" max={Object.keys(this.state.game.info.frames).length - 1} value={this.state.frame} onChange={this.handleChangeFrame} /> */}
                     {/* <button onClick={this.incrementeState()}>-1</button> */}
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.deincrementeState}>-1</button>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.incrementeState}>+1</button>
+                    {/* <p>TimeLine {this.state.gameL}</p>                     */}
+                    <div>
+                        <input id="large-range" type="range" defaultValue={this.state.frame} min="0" max={this.state.gameL} onChange={this.handleChangeFrame} step="1" className="my-4 w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"></input>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.deincrementeState}>-1</button>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.incrementeState}>+1</button>
+                    </div>
                 </div>
             </div>
         )

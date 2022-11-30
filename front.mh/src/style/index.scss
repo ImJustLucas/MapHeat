@@ -128,7 +128,11 @@ body{
     border-left: 4px solid green;
 }
 
-// CSS MATCH RESUME
+.slidecontainer{
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+}
 .mcresume {
     background-image: url("../image/nasus-4K.jpg");
     background-size: cover;
