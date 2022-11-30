@@ -129,7 +129,7 @@ export default class Map extends Component {
 
     //Inventaire (usine a gaz)
     PlayerInv(player, itemID, method, itemBis = "null"){
-        //Certains items sont problématique car évolution ... donc relou
+        //Certains items sont problématique car évolution, passif ... donc relou
         if(itemID === 2010 || itemID === 2422 || itemID === 2140 || itemID === 3851 || itemID === 3859){
             console.log("Item invalid désoler");
             return null;
@@ -147,20 +147,17 @@ export default class Map extends Component {
                 if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513){
                     this.setState({ [`player${player}IB`]: itemID})
                 }else{
-                    //supprime item a l'inventaire
             
                     if(this.checkValue(itemID, this.state["player"+player+"I"])){
                         var ItemInv = this.state["player"+player+"I"];
                         ItemInv.splice(ItemInv.indexOf(itemID), 1)
                     }else{
                         return null
-                    }
+                    } 
                 }
             }
             if(method === "UNDO"){
                 var ItemInv = this.state["player"+player+"I"];
-                //ITEM BIS = before
-                //ITEM ID = After
                 if(itemID === 0){
                     var Indexdelete = ItemInv.indexOf(itemBis);
                     ItemInv.splice(Indexdelete, 1)    
@@ -230,19 +227,13 @@ export default class Map extends Component {
                 }
             }
         });
-
-       
-
-
     }
 
 
 
     componentDidMount(){
-
         const GLength = Game.info.frames.length - 1;
         this.setState({gameL : GLength})
-
     }
 
     //-----------------------------------------//
@@ -271,13 +262,23 @@ export default class Map extends Component {
         return (
             <div className='map-size'>
                 <div className="background-image" style={backgroundImageLol}>
-
-                <div className='overlay'></div>
-                    
+                    <div className='overlay'></div>
                 </div>
-                <div className='my-3'>
+
+                <div className='slidecontainer w-[100vw] fixed z-50 bottom-[0%] flex flex-row justify-between items-center p-3'>
+                    <div className='w-[5%]'>
+                        <button className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 w-full rounded' onClick={this.deincrementeState}>-1</button>
+                    </div>
+                    <div className='w-[89%]'>
+                        <input id="large-range" type="range" defaultValue={this.state.frame} min="0" max={this.state.gameL} onChange={this.handleChangeFrame} step="1" className="my-4 h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700 custom-ranger"></input>
+                    </div>
+                    <div className='w-[5%]'>
+                        <button className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 w-full rounded' onClick={this.incrementeState}>+1</button>
+                    </div>
+                </div>
+
+                <div className='mt-3'>
                     <h1 className='text-white text-2xl text-center'>Analysons votre partie du 27/09/2022 à 19h54</h1>
-                    <h1 className='text-white text-2xl text-center'>{this.state.timer}</h1>
                     <div className='flex flex-row justify-center content-end w-full'>
                         <h2 className='text-white text-xl text-center'>Vous avez joué le champion {this.state.hero}</h2>
                         <img src={`https://ddragon.leagueoflegends.com/cdn/12.18.1/img/champion/${this.state.hero}.png`} width="50px" className='ml-2'></img>
@@ -293,25 +294,25 @@ export default class Map extends Component {
                     <div>
                         {/* <div className='card'>
                         </div> */}
-                        <p className='text-white text-xl'>Joueur 1</p>
+                        <p className='text-white text-l'>Joueur 1</p>
                         <InventoryPlayer playerI={this.state.player1I} playerIB={this.state.player1IB}/>
-                        <p className='text-white text-xl'>Joueur 2</p>
+                        <p className='text-white text-l'>Joueur 2</p>
                         <InventoryPlayer playerI={this.state.player2I} playerIB={this.state.player2IB}/>
-                        <p className='text-white text-xl'>Joueur 3</p>
+                        <p className='text-white text-l'>Joueur 3</p>
                         <InventoryPlayer playerI={this.state.player3I} playerIB={this.state.player3IB}/>
-                        <p className='text-white text-xl'>Joueur 4</p>
+                        <p className='text-white text-l'>Joueur 4</p>
                         <InventoryPlayer playerI={this.state.player4I} playerIB={this.state.player4IB}/>
-                        <p className='text-white text-xl'>Joueur 5</p>
+                        <p className='text-white text-l'>Joueur 5</p>
                         <InventoryPlayer playerI={this.state.player5I} playerIB={this.state.player5IB}/>
-                        <p className='text-white text-xl'>Joueur 6</p>
+                        <p className='text-white text-l'>Joueur 6</p>
                         <InventoryPlayer playerI={this.state.player6I} playerIB={this.state.player6IB}/>
-                        <p className='text-white text-xl'>Joueur 7</p>
+                        <p className='text-white text-l'>Joueur 7</p>
                         <InventoryPlayer playerI={this.state.player7I} playerIB={this.state.player7IB}/>
-                        <p className='text-white text-xl'>Joueur 8</p>
+                        <p className='text-white text-l'>Joueur 8</p>
                         <InventoryPlayer playerI={this.state.player8I} playerIB={this.state.player8IB}/>
-                        <p className='text-white text-xl'>Joueur 9</p>
+                        <p className='text-white text-l'>Joueur 9</p>
                         <InventoryPlayer playerI={this.state.player9I} playerIB={this.state.player9IB}/>
-                        <p className='text-white text-xl'>Joueur 10</p>
+                        <p className='text-white text-l'>Joueur 10</p>
                         <InventoryPlayer playerI={this.state.player10I} playerIB={this.state.player10IB}/>
                     </div>
                 </div>
@@ -320,11 +321,7 @@ export default class Map extends Component {
                     {/* <input type="range" min="0" max={Object.keys(this.state.game.info.frames).length - 1} value={this.state.frame} onChange={this.handleChangeFrame} /> */}
                     {/* <button onClick={this.incrementeState()}>-1</button> */}
                     {/* <p>TimeLine {this.state.gameL}</p>                     */}
-                    <div>
-                        <input id="large-range" type="range" defaultValue={this.state.frame} min="0" max={this.state.gameL} onChange={this.handleChangeFrame} step="1" className="my-4 w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"></input>
-                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.deincrementeState}>-1</button>
-                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={this.incrementeState}>+1</button>
-                    </div>
+                    
                 </div>
             </div>
         )
