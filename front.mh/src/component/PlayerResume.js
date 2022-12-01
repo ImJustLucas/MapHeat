@@ -56,41 +56,41 @@ class PlayerResume extends React.Component {
     return (
       <div className="App">
         <section className="mcresume">
-          <div className='mcresume__bgfilter'></div>
-        </section>
-        <div className="mcresume__header">
-          <div action="" method="post" className='mcresume__header--wrap'>
-            <input value={this.state.pseudo}
-              onChange={this.handleChangePseudo}
-              id="UserEmail"
-              placeholder="Pseudo" />
-            <Link onClick={this.forceUpdate} to={`/player/${this.state.pseudo}`}>
-              <button >ANALYSER VOTRE PARTY</button>
-            </Link>
-          </div>
-        </div>
-        <div className="mcresume__banner">
-          <div className="mcresume__banner--infos">
-            <h3>{persons.user.username}</h3>
-            <div className='mcresume__infos--wrapimg'>
-              <img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/profileicon/${persons.user.icon}.png`} alt="" />
-              <div className='mcresume__infos--lv'>
-                <p>{persons.user.summonersLvl}</p>
-              </div>
+          {/* <div className='mcresume__bgfilter'></div> */}
+          <div className="mcresume__header">
+            <div action="" method="post" className='mcresume__header--wrap'>
+              <input value={this.state.pseudo}
+                onChange={this.handleChangePseudo}
+                id="UserEmail"
+                placeholder="Pseudo" />
+              <Link onClick={this.forceUpdate} to={`/player/${this.state.pseudo}`} >
+                <button >ANALYSER VOTRE PARTY</button>
+              </Link>
             </div>
           </div>
-          <div className="mcresume__banner--bigbox">
-            {firstSlicedArray.map((match, index) => (
-              <MatchResumeRow Passclass={PassClassM1} key={index} summonerData={summonerData} bannerMatch={match} />
+          <div className="mcresume__banner">
+            <div className="mcresume__banner--infos">
+              <h3>{persons.user.username}</h3>
+              <div className='mcresume__infos--wrapimg'>
+                <img src={`https://ddragon.leagueoflegends.com/cdn/12.21.1/img/profileicon/${persons.user.icon}.png`} alt="" />
+                <div className='mcresume__infos--lv'>
+                  <p>{persons.user.summonersLvl}</p>
+                </div>
+              </div>
+            </div>
+            <div className="mcresume__banner--bigbox">
+              {firstSlicedArray.map((match, index) => (
+                <MatchResumeRow Passclass={PassClassM1} key={index} summonerData={summonerData} bannerMatch={match} />
+              ))}
+            </div>
+
+          </div>
+          <div className="mcresume__match">
+            {secondSlicedArray.map((match, index) => (
+              <MatchResumeRow Passclass={PassClassM2} key={index} summonerData={summonerData} bannerMatch={match} />
             ))}
           </div>
-
-        </div>
-        <div className="mcresume__match">
-          {secondSlicedArray.map((match, index) => (
-            <MatchResumeRow Passclass={PassClassM2} key={index} summonerData={summonerData} bannerMatch={match} />
-          ))}
-        </div>
+        </section>
       </div>
     );
   }

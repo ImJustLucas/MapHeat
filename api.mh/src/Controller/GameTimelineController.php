@@ -32,7 +32,6 @@ class GameTimelineController extends AbstractController
 
         //Find match timeline in database
         $matchTimeline = $matchTimelineRepository->findOneBy(['MatchId' => $matchID]);
-
         //If match timeline not found, we get it from Riot API
         if (empty($matchTimeline) || is_null($matchTimeline)) {
 
@@ -41,7 +40,8 @@ class GameTimelineController extends AbstractController
 
             $matchTimelineRepository->addMatchTimeline($matchTimeline, $matchID);
         }
-
+        
+        $matchTimeline = (array) $matchTimeline;
         return $this->json([
             'message' => 'Get timeline of a match',
             'matchID' => $matchID,
