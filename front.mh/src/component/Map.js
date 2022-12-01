@@ -4,6 +4,9 @@ import InventoryPlayer from './carte/InventoryPlayer';
 import {
     useParams
   } from "react-router-dom";
+  import axios from "axios";
+
+
 
 export default class Map extends Component {
     constructor(props){
@@ -14,7 +17,7 @@ export default class Map extends Component {
             timer: 0,
             frame: 0,
             start: false,
-            game: Game,
+            game: null,
             gameL: 0,
             player1I : [],
             player2I : [],
@@ -138,7 +141,7 @@ export default class Map extends Component {
             return null;
         }else{
             if(method === "SET"){
-                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513){
+                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513 || itemID === 2421){
                     this.setState({ ["player"+player+"IB"]: itemID})
                     // this.setState({ [`player${player}IB`]: itemID})
                 }else{
@@ -235,10 +238,16 @@ export default class Map extends Component {
 
 
     componentDidMount(){
+        const timeline = window.location.search.slice(10);
+        
+        axios.get(`http://127.0.0.1:8000/game/timeline/${timeline}`).then((response) => {
+            this.setState({game : response.data.matchTimeline})
+            console.log(response.data.matchTimeline)
+        });
+        
         const GLength = Game.info.frames.length - 1;
         this.setState({gameL : GLength});
-        const timeline = window.location.search.slice(10);
-        console.log(timeline);
+
     }
 
     //-----------------------------------------//
