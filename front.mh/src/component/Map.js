@@ -136,7 +136,7 @@ export default class Map extends Component {
     //Inventaire (usine a gaz)
     PlayerInv(player, itemID, method, itemBis = "null"){
         //Certains items sont problématique car évolution, passif ... donc relou
-        if(itemID === 2010 || itemID === 2422 || itemID === 2140 || itemID === 3851 || itemID === 3859){
+        if(itemID === 2010 || itemID === 2422 || itemID === 2140 || itemID === 3851 || itemID === 3859 || itemID === 2419 || itemID === 2423 || itemID === 2424){
             console.log("Item invalid désoler");
             return null;
         }else{
@@ -150,7 +150,7 @@ export default class Map extends Component {
                 }
             }
             if(method === "DELETE"){
-                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513){
+                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513 || itemID === 2421){
                     this.setState({ [`player${player}IB`]: itemID})
                 }else{
             
