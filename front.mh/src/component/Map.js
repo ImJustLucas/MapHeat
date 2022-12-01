@@ -39,6 +39,7 @@ export default class Map extends Component {
             player8IB : 3340,
             player9IB : 3340,
             player10IB : 3340,
+            isLoading: true,
         };
 
 
@@ -136,12 +137,12 @@ export default class Map extends Component {
     //Inventaire (usine a gaz)
     PlayerInv(player, itemID, method, itemBis = "null"){
         //Certains items sont problématique car évolution, passif ... donc relou
-        if(itemID === 2010 || itemID === 2422 || itemID === 2140 || itemID === 3851 || itemID === 3859 || itemID === 2419 || itemID === 2423 || itemID === 2424){
+        if(itemID === 2010 || itemID === 2422 || itemID === 2140 || itemID === 3851 || itemID === 3859 || itemID === 2419 || itemID === 2423 || itemID === 2424 || itemID === 2403 || itemID === 3855){
             console.log("Item invalid désoler");
             return null;
         }else{
             if(method === "SET"){
-                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513 || itemID === 2421){
+                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513){
                     this.setState({ ["player"+player+"IB"]: itemID})
                     // this.setState({ [`player${player}IB`]: itemID})
                 }else{
@@ -150,7 +151,7 @@ export default class Map extends Component {
                 }
             }
             if(method === "DELETE"){
-                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513 || itemID === 2421){
+                if(itemID === 3340 || itemID === 3364 || itemID === 3363 || itemID === 3513){
                     this.setState({ [`player${player}IB`]: itemID})
                 }else{
             
@@ -241,12 +242,11 @@ export default class Map extends Component {
         const timeline = window.location.search.slice(10);
         
         axios.get(`http://127.0.0.1:8000/game/timeline/${timeline}`).then((response) => {
-            this.setState({game : response.data.matchTimeline})
-            console.log(response.data.matchTimeline)
+            this.setState({game : response.data.matchTimeline});
+            this.setState({gameL : response.data.matchTimeline.info.frames.length - 1});
+            this.setState({isLoading: false});
         });
         
-        const GLength = Game.info.frames.length - 1;
-        this.setState({gameL : GLength});
 
     }
 
@@ -270,6 +270,9 @@ export default class Map extends Component {
             display: "none"
         }
         
+        if (this.state.isLoading) {
+            return <div className="App">Loading...</div>;
+        }
 
 
     
