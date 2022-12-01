@@ -7,7 +7,7 @@ function MatchResumeLink({ data }) {
     return (
         <div className='mcLink'>
             {arrData?.map((data, key) => (
-                <Link key={key} to={`/map/${data.Matchid}`}>
+                <Link key={key} to={`/map?timeline={data.Matchid}`}>
                     BUTTON
                 </Link>
             ))}

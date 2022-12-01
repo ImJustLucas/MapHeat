@@ -1,6 +1,9 @@
 import React, { Component, useState} from 'react';
 import Game from './../Data/gametest.json';
 import InventoryPlayer from './carte/InventoryPlayer';
+import {
+    useParams
+  } from "react-router-dom";
 
 export default class Map extends Component {
     constructor(props){
@@ -233,7 +236,9 @@ export default class Map extends Component {
 
     componentDidMount(){
         const GLength = Game.info.frames.length - 1;
-        this.setState({gameL : GLength})
+        this.setState({gameL : GLength});
+        const timeline = window.location.search.slice(10);
+        console.log(timeline);
     }
 
     //-----------------------------------------//

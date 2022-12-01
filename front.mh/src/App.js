@@ -10,7 +10,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/map" element={<Map />} />
+        <Route path="/map" element={<Map />}/>
+        {/* <Route exact path="/map/:timeline" render={(props) => <Map {...props} />} /> */}
+        {/* <Route path="/map/:timeline" element={<Map />} render={(props) => <Map />} /> */}
         <Route path="/player/:pseudo" element={<PlayerResume />} />
       </Routes>
     </Router>
