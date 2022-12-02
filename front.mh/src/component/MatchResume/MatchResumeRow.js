@@ -10,7 +10,7 @@ function MatchResumeRow({ Passclass, summonerData, bannerMatch }) {
                 <MatchResumeGameStatus data={bannerMatch} />
                 <MatchResumeGameDetails data={bannerMatch} summonerData={summonerData} />
             </div>
-            <MatchResumeLink data={bannerMatch} />
+            <MatchResumeLink data={bannerMatch}/>
         </div>
     );
 }

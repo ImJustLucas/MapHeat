@@ -62,7 +62,7 @@ body{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
+    // height: 100vh;
     .overlay{
         position: absolute;
         height: 100vh;
@@ -80,11 +80,12 @@ body{
 
     }
     .map{
-        width: 500px;
-        height: 500px;
+        // width: 500px;
+        // height: 500px;
         position: relative;
         // border: 2px solid rgba(255, 0, 0, 0.397);
-        border-radius: 125px 5px;
+        margin: 0 auto;
+        border-radius: 20px 125px;
         background: #1d1929;
         box-shadow:  20px 20px 60px #191523,
                     -20px -20px 60px #211d2f;
@@ -99,14 +100,58 @@ body{
             left: calc(100%);
             background-color: lime;
         }
-        .player{
-            width: 30px;
-            height: 30px;
+        .playerRed{
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            padding: 1px;
             position: absolute;
-            background-size: cover;
+            font-weight: 500;
+            font-size: 1.3em;
+            color: #a72b10;
+            background-color: #ffffff4B;
+            border: 2px solid rgba(0, 0, 0, 0.808);
             border-radius: 50%;
-            border: 3px solid #12151f;
+            z-index: 100;
+            -webkit-animation: fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
         }
+
+
+        .playerBleu{
+            width: 35px;
+            height: 35px;
+            text-align: center;
+            padding: 1px;
+            position: absolute;
+            font-weight: 500;
+            font-size: 1.3em;
+            color: #273c75;
+            background-color: #ffffff4b;
+            border: 2px solid rgba(0, 0, 0, 0.808);
+            border-radius: 50%;
+            z-index: 100;
+            -webkit-animation: fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+        }
+
+        @-webkit-keyframes fade-in {
+            0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 1;
+            }
+          }
+          @keyframes fade-in {
+            0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 1;
+            }
+          }
+          
 
         .Lastkill{
             background-image: url("./../image/killicon.png");
@@ -115,6 +160,8 @@ body{
             border-radius: 50%;
             width: 20px;
             position: absolute;
+            -webkit-animation: fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	        animation: fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
         }
         .dead{
             filter: grayscale(100%);
@@ -427,7 +474,7 @@ justify-content: space-around;
         width: 25px; /* Set a specific slider handle width */
         height: 25px; /* Slider handle height */
         background: #FCD34D; /* Green background */
-        border-radius: 5px;
+        border-radius: 50%;
         cursor: pointer; /* Cursor on hover */
     }
     &::-moz-range-thumb {
