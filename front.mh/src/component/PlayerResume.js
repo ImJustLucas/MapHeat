@@ -37,7 +37,7 @@ class PlayerResume extends React.Component {
 
     setTimeout(() => {
       //Relance si jamais l'api "bug"
-      if(isLoading === true){
+      if(this.state.isLoading === true){
         axios.get(`http://127.0.0.1:8000/games/${pseudo}`).then((response) => {
         this.setState({ persons: response.data });
         this.setState({ isLoading: false });
