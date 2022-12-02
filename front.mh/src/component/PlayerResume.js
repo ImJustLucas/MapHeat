@@ -34,14 +34,12 @@ class PlayerResume extends React.Component {
       this.setState({ summonerData: response.data.data });;
     });
   }
-
+  
   render() {
     const { isLoading, persons, summonerData } = this.state;
     if (isLoading) {
       return <div className="App">Loading...</div>;
     }
-    console.log(persons.matchs);
-    // console.log(summonerData); 
     const firstSlicedArray = persons.matchs.slice(0, 2);
 
     const secondSlicedArray = persons.matchs.slice(2);
@@ -56,7 +54,7 @@ class PlayerResume extends React.Component {
     return (
       <div className="App">
         <section className="mcresume">
-          {/* <div className='mcresume__bgfilter'></div> */}
+          <div className='mcresume__bgfilter'></div>
           <div className="mcresume__header">
             <div action="" method="post" className='mcresume__header--wrap'>
               <input value={this.state.pseudo}

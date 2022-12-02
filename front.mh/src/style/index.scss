@@ -194,6 +194,7 @@ body{
 
 .mcresume__header {
     display: flex;
+    position: relative;
 }
 .mcresume__header--wrap {
     width: 100%;
@@ -213,6 +214,7 @@ body{
 }
 
 .mcresume__header--wrap input {
+    min-width: 294px;
     width: 40%;
     height: 6vh;
     background-color: transparent;
@@ -241,7 +243,7 @@ body{
 }
 // BANNER 
 .mcresume__banner {
-    
+    position: relative;
     display: flex;
     margin: 20px 80px;
     gap:10px;
@@ -258,6 +260,7 @@ body{
 .mcresume__banner--infos h3 {
     font-size: 1.5rem;
     color: #FFC300;
+    text-align: center;
     font-weight: 700;
 }
 .mcresume__banner--bigbox {
@@ -424,6 +427,7 @@ justify-content: space-around;
     flex-wrap: wrap;
     padding: 0px 80px 80px 80px;
     gap: 20px;
+    position: relative;
 }
 .mcresume__match-boxwrap {
     display: flex;
@@ -452,7 +456,13 @@ justify-content: space-around;
 }
 .mcLink a {
     color: #AB8300;
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.mcLink p {
+    color: rgb(87, 16, 16);
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .custom-ranger{
@@ -516,6 +526,21 @@ justify-content: space-around;
         flex-flow: wrap;
     }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
+    .mcresume__header--wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding-top: 20px;
+    
+    }
+    .mcresume__header--wrap button {
+        height: auto;
+        min-height: 5vh;
+        font-size: 16px;
+        min-width: 250px;
+    }
 
 }

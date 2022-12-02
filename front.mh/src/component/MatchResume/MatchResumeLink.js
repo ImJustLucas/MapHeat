@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 function MatchResumeLink({ data }) {
     const arrData = [data]
 
-
     return (
         <div className='mcLink'>
             {arrData?.map((data, key) => (
