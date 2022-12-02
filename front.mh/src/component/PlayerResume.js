@@ -33,6 +33,23 @@ class PlayerResume extends React.Component {
     axios.get(summonerUrl).then(response => {
       this.setState({ summonerData: response.data.data });;
     });
+
+
+    setTimeout(() => {
+      //Relance si jamais l'api "bug"
+      if(isLoading === true){
+        axios.get(`http://127.0.0.1:8000/games/${pseudo}`).then((response) => {
+        this.setState({ persons: response.data });
+        this.setState({ isLoading: false });
+      });
+
+      axios.get(summonerUrl).then(response => {
+        this.setState({ summonerData: response.data.data });;
+      });
+      }
+  }, "4000");
+
+
   }
   
   render() {
