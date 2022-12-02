@@ -54,7 +54,6 @@ class PlayerResume extends React.Component {
     return (
       <div className="App">
         <section className="mcresume">
-          <div className='mcresume__bgfilter'></div>
           <div className="mcresume__header">
             <div action="" method="post" className='mcresume__header--wrap'>
               <input value={this.state.pseudo}
